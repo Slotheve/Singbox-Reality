@@ -203,7 +203,7 @@ getData() {
 		colorEcho $BLUE "域名：${domains[$pick-1]}"
 		echo ""
 	fi
-	short_id=$(openssl rand -hex 8)
+	short_id=$(openssl rand -hex 4)
 }
 
 setSelinux() {
