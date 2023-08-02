@@ -486,7 +486,7 @@ showLog() {
 		colorEcho $RED " SingBox未安装，请先安装！"
 		return
 	fi
-	ournalctl -xen -u sing-box --no-pager
+	journalctl -xen -u sing-box --no-pager
 }
 
 menu() {
