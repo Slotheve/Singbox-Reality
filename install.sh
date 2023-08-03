@@ -10,6 +10,7 @@ BLUE="\033[36m"
 PLAIN='\033[0m'
 
 CONFIG_FILE="/usr/local/etc/sing-box/config.json"
+CONFIG_CLASH="/usr/local/etc/sing-box/clash.yaml"
 OS=`hostnamectl | grep -i system | cut -d: -f2`
 
 IP=`curl -sL -4 ip.sb`
@@ -323,6 +324,24 @@ configSingBox() {
     ]
 }
 EOF
+
+	cat > /usr/local/etc/sing-box/clash.yaml << EOF
+- name: Vless+Reality+Vision
+  type: vless
+  server: $IP
+  port: $PORT
+  uuid: $UUID
+  network: tcp
+  tls: true
+  udp: true
+  mux: true
+  flow: xtls-rprx-vision
+  servername: $DOMAIN
+  reality-opts:
+    public-key: $public_key
+    short-id: $short_id
+  client-fingerprint: chrome # chrome/safari/firefox/ios/random/none
+EOF
 }
 
 install() {
@@ -441,12 +460,12 @@ getConfigFileInfo() {
 	uuid=`grep uuid $CONFIG_FILE | cut -d: -f2 | tr -d \",' '`
 	flow=`grep flow $CONFIG_FILE | cut -d: -f2 | tr -d \",' '`
 	sni=`grep server_name $CONFIG_FILE | cut -d: -f2 | tr -d \",' '`
-	sid=`grep short_id $CONFIG_FILE | head -n1| cut -d: -f2 | tr -d \",' '`
+	sid=`grep short_id $CONFIG_FILE | cut -d: -f2 | tr -d \",' '`
+ 	pubkey=`grep public-key $CONFIG_CLASH | cut -d: -f2 | tr -d ' '`
 }
 
 output() {
 	raw="${uuid}@${IP}:${port}?type=tcp&security=reality&fp=chrome&pbk=${public_key}&sni=${sni}&flow=${flow}&sid=${sid}"
-
 	link="vless://${raw}"
 
 	echo -e "   ${BLUE}协议: ${PLAIN} ${RED}vless${PLAIN}"
@@ -458,9 +477,10 @@ output() {
 	echo -e "   ${BLUE}安全(security)：${PLAIN} ${RED}reality${PLAIN}"
 	echo -e "   ${BLUE}域名(sni)：${PLAIN} ${RED}${sni}${PLAIN}"
 	echo -e "   ${BLUE}短ID(shortid)：${PLAIN} ${RED}${sid}${PLAIN}"
-	echo -e "   ${BLUE}公钥(pubkey)：${PLAIN} ${RED}${public_key}${PLAIN}"
+	echo -e "   ${BLUE}公钥(publickey)：${PLAIN} ${RED}${pubkey}${PLAIN}"
 	echo ""
-	echo -e "   ${BLUE}vless链接:${PLAIN} $RED$link$PLAIN"
+	echo -e "   ${BLUE}Vless链接:${PLAIN} $RED$link$PLAIN"
+ 	echo -e "   ${BLUE}ClashMeta文件:${PLAIN} $RED${CONFIG_CLASH}$PLAIN"
 }
 
 showInfo() {
