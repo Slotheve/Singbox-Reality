@@ -465,7 +465,7 @@ getConfigFileInfo() {
 }
 
 output() {
-	raw="${uuid}@${IP}:${port}?type=tcp&security=reality&fp=chrome&pbk=${public_key}&sni=${sni}&flow=${flow}&sid=${sid}"
+	raw="${uuid}@${IP}:${port}?type=tcp&security=reality&fp=chrome&pbk=${public_key}&sni=${sni}&flow=${flow}&sid=${sid}&spx=%2F#Vless+Reality+Vision"
 	link="vless://${raw}"
 
 	echo -e "   ${BLUE}协议: ${PLAIN} ${RED}vless${PLAIN}"
