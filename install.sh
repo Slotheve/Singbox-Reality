@@ -170,7 +170,7 @@ getData() {
 
  	read -p $'请输入 vless uuid\n(推荐随机生成，直接回车):' UUID
 	[[ -z "$UUID" ]] && UUID="$(cat '/proc/sys/kernel/random/uuid')"
-	colorEcho $BLUE " UUID：$UUID"
+	colorEcho $BLUE "UUID：$UUID"
 	echo ""
 
 	 for ((i=1;i<=${#domains[@]};i++ )); do
