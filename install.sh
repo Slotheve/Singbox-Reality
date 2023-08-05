@@ -438,7 +438,8 @@ uninstall() {
 	read -p $' 是否卸载Snell？[y/n]：\n (默认n, 回车)' answer
 	if [[ "${answer,,}" = "y" ]]; then
 		stop
-		systemctl disable sing-box
+		systemctl disable sing-box >/dev/null 2>&1
+  		colorEcho $BLUE " SingBox服务移除"
 		rm -rf /etc/systemd/system/sing-box.service
 		systemctl daemon-reload
 		rm -rf /usr/local/bin/sing-box
@@ -466,13 +467,13 @@ start() {
 	if [[ "$res" = "" ]]; then
 		colorEcho $RED " SingBox启动失败，请检查日志或查看端口是否被占用！"
 	else
-		colorEcho $BLUE " SingBox启动成功"
+		colorEcho $GREEN " SingBox启动成功"
 	fi
 }
 
 stop() {
 	systemctl stop sing-box
-	colorEcho $BLUE " SingBox停止成功"
+	colorEcho $GREEN " SingBox停止成功"
 }
 
 
