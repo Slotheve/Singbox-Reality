@@ -167,7 +167,8 @@ getData() {
 		echo ""
 		exit 1
 	fi
-	read -p $'请输入 vless uuid\n(推荐随机生成，直接回车):' UUID
+
+ 	read -p $'请输入 vless uuid\n(推荐随机生成，直接回车):' UUID
 	[[ -z "$UUID" ]] && UUID="$(cat '/proc/sys/kernel/random/uuid')"
 	colorEcho $BLUE " UUID：$UUID"
 	echo ""
@@ -176,7 +177,8 @@ getData() {
  		hint="${domains[$i-1]}"
  		echo -e "${GREEN}${i}${PLAIN}) ${hint}"
  	done
-	read -p "请选择域名[1-4] (默认: ${domains[0]}):" pick
+
+ 	read -p "请选择域名[1-4] (默认: ${domains[0]}):" pick
 	[ -z "$pick" ] && pick=1
 	expr ${pick} + 1 &>/dev/null
 	if [ $? -ne 0 ]; then
@@ -204,6 +206,21 @@ getData() {
 		colorEcho $BLUE "域名：${domains[$pick-1]}"
 		echo ""
 	fi
+
+ 	read -p $' 是否禁止BT？[y/n]：\n (默认n, 回车)' answer
+	if [[ "${answer,,}" = "y" ]]; then
+		BT="block"
+  		colorEcho $BLUE "BT 已禁止"
+		echo ""
+	elif [[ "${answer}" = "n" || -z "${answer}" ]]; then
+		BT="direct"
+  		colorEcho $BLUE "BT 已允许"
+		echo ""
+	else
+		colorEcho $RED " 输入错误, 请输入[y/n]。"
+		exit 1
+	fi
+ 
 	short_id=$(openssl rand -hex 4)
 }
 
@@ -319,9 +336,26 @@ configSingBox() {
     ],
     "outbounds": [
         {
-            "type": "direct"
+            "type": "direct",
+            "tag": "direct"
+        },
+        {
+            "type": "block",
+            "tag": "block"
         }
-    ]
+    ],
+    "route": {
+        "rules": [
+            {
+                "type": "field",
+                "outboundTag": "$BT",
+                "protocol": [
+                "bittorrent"
+            ]
+            "final": "direct"
+            }
+        ]
+    }
 }
 EOF
 
