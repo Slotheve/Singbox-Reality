@@ -207,7 +207,7 @@ getData() {
 		echo ""
 	fi
 
- 	read -p $' 是否禁止BT？[y/n]：\n (默认n, 回车)' answer
+ 	read -p $'是否禁止BT？[y/n]：\n(默认n, 回车)' answer
 	if [[ "${answer,,}" = "y" ]]; then
 		BT="block"
   		colorEcho $BLUE "BT 已禁止"
