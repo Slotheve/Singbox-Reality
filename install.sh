@@ -347,12 +347,10 @@ configSingBox() {
     "route": {
         "rules": [
             {
-                "type": "field",
-                "outboundTag": "$BT",
+                "outbound": "$BT",
                 "protocol": [
                 "bittorrent"
-            ]
-            "final": "direct"
+                ]
             }
         ]
     }
