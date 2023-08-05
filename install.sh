@@ -379,6 +379,7 @@ EOF
 }
 
 install() {
+	echo ""
 	getData
 
 	$PMT clean all
@@ -562,8 +563,7 @@ menu() {
 	echo -e "  ${GREEN}6.${PLAIN} 停止SingBox"
 	echo " --------------------"
 	echo -e "  ${GREEN}7.${PLAIN} 查看SingBox配置"
-	echo -e "  ${GREEN}8.${PLAIN} 查看ShadowTls配置"
-	echo -e "  ${GREEN}9.${PLAIN} 查看SingBox日志"
+	echo -e "  ${GREEN}8.${PLAIN} 查看SingBox日志"
 	echo " --------------------"
 	echo -e "  ${GREEN}0.${PLAIN}  退出"
 	echo ""
@@ -571,7 +571,7 @@ menu() {
 	statusText
 	echo 
 
-	read -p " 请选择操作[0-9]：" answer
+	read -p " 请选择操作[0-8]：" answer
 	case $answer in
 		0)
 			exit 0
@@ -598,9 +598,6 @@ menu() {
 			showInfo
 			;;
 		8)
-			ShowInfo_stls
-			;;
-		9)
 			showLog
 			;;
 		*)
