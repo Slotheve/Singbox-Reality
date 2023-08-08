@@ -311,6 +311,8 @@ configSingBox() {
             "type": "vless",
             "listen": "0.0.0.0",
             "listen_port": $PORT,
+            "tcp_fast_open": true,
+            "udp_fragment": true,
             "sniff": true,
             "sniff_override_destination": true,
             "users": [
