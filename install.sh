@@ -368,7 +368,7 @@ EOF
   network: tcp
   tls: true
   udp: true
-  mux: true
+  fast-open: true
   flow: xtls-rprx-vision
   servername: $DOMAIN
   reality-opts:
