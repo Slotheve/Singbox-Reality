@@ -437,7 +437,7 @@ uninstall() {
 	fi
 
 	echo ""
-	read -p $' 是否卸载Snell？[y/n]：\n (默认n, 回车)' answer
+	read -p $' 是否卸载SingBox？[y/n]：\n (默认n, 回车)' answer
 	if [[ "${answer,,}" = "y" ]]; then
 		stop
 		systemctl disable sing-box >/dev/null 2>&1
